@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Roboto%3Awght%40400%3B500%3B700%3B900&amp;family=Inter%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-500: #38e07b;
+            --primary-600: #2dba62;
+            --primary-700: #22934e;
+            --secondary-100: #f0fdf4;
+            --secondary-200: #dcfce7;
+            --secondary-400: #4ade80;
+            --secondary-500: #22c55e;
+            --neutral-100: #f3f4f6;
+            --neutral-200: #e5e7eb;
+            --neutral-300: #d1d5db;
+            --neutral-400: #9ca3af;
+            --neutral-500: #6b7280;
+            --neutral-600: #4b5563;
+            --neutral-700: #374151;
+            --neutral-800: #1f2937;
+            --neutral-900: #111827;
+        }
+        .running-dot {
+            animation: pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .delayed-dot {
+            animation: pulse-amber 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-green {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+        @keyframes pulse-amber {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-neutral-900 text-white" style='font-family: "Inter", "Roboto", sans-serif;'>
+<div class="flex min-h-screen">
+<aside class="w-64 flex-col bg-neutral-900 p-4 transition-transform duration-300 ease-in-out" id="sidebar">
+<div class="flex items-center gap-2.5 p-4">
+<svg class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h1 class="text-xl font-bold">Kochi Metro</h1>
+</div>
+<nav class="mt-8 flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg bg-cyan-500/20 px-4 py-2.5 text-cyan-400 transition-colors hover:bg-cyan-500/30" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white" href="#">
+<span class="material-symbols-outlined">train</span>
+<span class="font-medium">Train Status</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white" href="#">
+<span class="material-symbols-outlined">toggle_on</span>
+<span class="font-medium">Operational Metros</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-medium">Duty Staff</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</div>
+</aside>
+<main class="flex-1">
+<header class="flex h-20 items-center justify-between border-b border-neutral-800 bg-neutral-900 px-8">
+<button class="text-neutral-400 hover:text-white md:hidden" id="sidebar-toggle">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">search</span>
+<input class="w-full rounded-lg border-transparent bg-neutral-800 py-2 pl-10 pr-4 text-white placeholder-neutral-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Search..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative rounded-full p-2 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</button>
+<button class="relative rounded-full p-2 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white" id="notification-button">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-lime-400"></span>
+</button>
+<div class="flex items-center gap-3">
+<img alt="User avatar" class="h-10 w-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf4_nRlNRq4FPh__uoO2kkc9M5jXm6DZ4o9sNXFTkKXC5gJC7Rpp3mUgq1UjLC_FIpXD7dpskBXwHlZWaYiutAVn2rJpsMetJMcygsF3U7cINCDz72UQ8CMGhM7q6I14mmvWuLG6OVR69QN0eBskghhI1U9-jNyM9bQ-AFOn8qdWfWy1JYwvp-nfH6cmdTNyWj6DSOoyaAfzCcWmwxZUcYjM98HCk86XVrIHCtY8KKkQ5MiUf3PUbmxC477DZj6QKuW55H23i_LOd8"/>
+<div class="hidden sm:block">
+<p class="font-semibold">Bhawna</p>
+<p class="text-sm text-neutral-400">Admin</p>
+</div>
+</div>
+<button class="ml-4 flex items-center gap-1.5 rounded-md bg-red-600/50 px-3 py-1.5 text-xs font-medium text-red-300 transition-colors hover:bg-red-600/70 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-neutral-900">
+<span class="material-symbols-outlined text-base">logout</span>
+<span>Logout</span>
+</button>
+</div>
+</header>
+<div class="p-8">
+<h2 class="mb-6 text-3xl font-bold">Dashboard</h2>
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+<div class="lg:col-span-2">
+<div class="relative h-[500px] overflow-hidden rounded-2xl bg-neutral-800 shadow-lg">
+<img alt="Kochi Metro Map" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfn5F8qXNbzX9Wq-ac20KddfzKvR9VZPRRsShRuuvsvR9_qsl3FX1uct1n732NeZfVvk8dKmlwdMQSz2-ADxBzoYSTRlIQUqkCMAY6kyTEv0A-OaWjcnfd_wMcUJjf16rFVC1Uj3j7roYi-6_dWLMtao6efat1PANLNGmpEVUcNoiFjfMSbtUaKfTOJKFlGJ3jll2aX7kdWgvCOi_SYNJEEVMJy_ONjxCfnRXZSFsKk0rVJtCrgClFrzEHMHEsYvLMoe6qFlYdpbXi"/>
+<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute bottom-4 right-4 flex flex-col gap-2">
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-700/80 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-neutral-600">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-700/80 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-neutral-600">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="mt-2 flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/80 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-cyan-600">
+<span class="material-symbols-outlined">navigation</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-8">
+<div class="rounded-2xl bg-neutral-800 p-6 shadow-lg">
+<h3 class="mb-4 text-xl font-semibold">Train Status</h3>
+<div class="flex justify-between gap-4">
+<div class="text-center">
+<div class="relative mx-auto h-20 w-20">
+<div class="absolute inset-0 flex items-center justify-center rounded-full bg-lime-500/20">
+<div class="h-14 w-14 rounded-full bg-lime-500/30"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center running-dot">
+<div class="h-4 w-4 rounded-full bg-lime-400"></div>
+</div>
+</div>
+<p class="mt-2 font-medium">Running</p>
+<p class="text-2xl font-bold">18</p>
+</div>
+<div class="text-center">
+<div class="relative mx-auto h-20 w-20">
+<div class="absolute inset-0 flex items-center justify-center rounded-full bg-amber-500/20">
+<div class="h-14 w-14 rounded-full bg-amber-500/30"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center delayed-dot">
+<div class="h-4 w-4 rounded-full bg-amber-400"></div>
+</div>
+</div>
+<p class="mt-2 font-medium">Delayed</p>
+<p class="text-2xl font-bold">3</p>
+</div>
+<div class="text-center">
+<div class="relative mx-auto h-20 w-20">
+<div class="absolute inset-0 flex items-center justify-center rounded-full bg-neutral-700/50">
+<div class="h-14 w-14 rounded-full bg-neutral-600/60"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="h-4 w-4 rounded-full bg-neutral-400"></div>
+</div>
+</div>
+<p class="mt-2 font-medium">Stopped</p>
+<p class="text-2xl font-bold">2</p>
+</div>
+</div>
+</div>
+<div class="rounded-2xl bg-neutral-800 p-6 shadow-lg">
+<h3 class="mb-4 text-xl font-semibold">Operational Metros</h3>
+<div class="relative mb-4">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">search</span>
+<input class="w-full rounded-lg border-transparent bg-neutral-700 py-2 pl-10 pr-4 text-white placeholder-neutral-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Search train..." type="text"/>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500/20 text-cyan-400">
+<span class="material-symbols-outlined">train</span>
+</div>
+<span class="font-medium">Line 1</span>
+</div>
+<label class="relative inline-flex cursor-pointer items-center">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-neutral-700 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-cyan-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-cyan-800"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500/20 text-cyan-400">
+<span class="material-symbols-outlined">train</span>
+</div>
+<span class="font-medium">Line 2</span>
+</div>
+<label class="relative inline-flex cursor-pointer items-center">
+<input class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-neutral-700 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-cyan-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-cyan-800"></div>
+</label>
+</div>
+</div>
+<button class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-500/20 py-2.5 text-cyan-400 transition-colors hover:bg-cyan-500/30">
+<span class="material-symbols-outlined">add</span>
+<span class="font-medium">Add Metro</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-8 rounded-2xl bg-neutral-800 p-6 shadow-lg">
+<h3 class="mb-4 text-xl font-semibold">Train Information: KM-021</h3>
+<div class="space-y-6">
+<div>
+<h4 class="mb-2 font-semibold text-neutral-400">Current Issues</h4>
+<div class="flex items-start gap-3 rounded-lg bg-red-900/30 p-3">
+<span class="material-symbols-outlined mt-1 text-red-400">error</span>
+<div>
+<p class="font-medium text-red-400">Brake System Malfunction</p>
+<p class="text-sm text-neutral-400">Minor issue reported at 14:32. Maintenance crew alerted.</p>
+</div>
+</div>
+</div>
+<div>
+<h4 class="mb-2 font-semibold text-neutral-400">Last Reported Location</h4>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-cyan-400">location_on</span>
+<p>Approaching <span class="font-medium text-cyan-400">Aluva Station</span></p>
+</div>
+</div>
+<div>
+<h4 class="mb-2 font-semibold text-neutral-400">Nearby On-Duty Officers</h4>
+<div class="space-y-4">
+<div class="flex items-center justify-between rounded-lg bg-neutral-700/50 p-3 transition-colors hover:bg-neutral-700">
+<div class="flex items-center gap-3">
+<img alt="Officer avatar" class="h-10 w-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNWxF0S-r56TIxTtV6hFcHQ_wKkabnNaukGd_wLB1LIQqReToOPIv_kahN9uXFtGV1H9uwt-JHrs5IJVKPe6tq_k1rdDhbsxHEJS0scj8LCEAo7rAryPHfQgiWVH6SkcMf8vcMG6ioilwh9Wx5NdNNPeTXGpuq1JeQnxcgFs9lIezpvX5swfnoYZIEZsbNwVPKgiUk2a_nVAKCX0rmPQKaFLkxpu6EcQ17esxYnMY-1gnnxeWmCG8I8CE3RXcLR1HwieJHocu3jXfo"/>
+<div>
+<p class="font-medium">Rohan Patil</p>
+<p class="text-sm text-neutral-400">Security Supervisor</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400 transition-colors hover:bg-cyan-500/30">
+<span class="material-symbols-outlined text-base">call</span>
+</button>
+<button class="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400 transition-colors hover:bg-cyan-500/30">
+<span class="material-symbols-outlined text-base">chat</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between rounded-lg bg-neutral-700/50 p-3 transition-colors hover:bg-neutral-700">
+<div class="flex items-center gap-3">
+<img alt="Officer avatar" class="h-10 w-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwfVVlqvh-qu1RYrQwECCwgtGimFp80bLuAZhOGbjBafMNTYb4hPUKvuCmcmlyJ1zcWuJU-Qly2thz9CMn2wFnFPOjm2Neoh8If5f0EM_WyMkdaH9RaHfKZiPDlHtlklRq1d29xuafpw8a6DtuAfju0MS7WecIioQMuT8-01uOHsNc7hPfKQwh3bNFv5ZJfgHLiKhNH3NAr9j7B57l4SBQRIS720P3TzCD56P87CbnYlOTzs8YUxZr18sXraj9SXiYJgXlTOoWnxlp"/>
+<div>
+<p class="font-medium">Sunita Rao</p>
+<p class="text-sm text-neutral-400">Station Staff</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400 transition-colors hover:bg-cyan-500/30">
+<span class="material-symbols-outlined text-base">call</span>
+</button>
+<button class="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400 transition-colors hover:bg-cyan-500/30">
+<span class="material-symbols-outlined text-base">chat</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden" id="notification-modal">
+<div class="w-full max-w-md rounded-2xl bg-neutral-800 shadow-2xl">
+<div class="flex items-center justify-between border-b border-neutral-700 p-4">
+<h3 class="text-xl font-semibold">Notifications</h3>
+<button class="text-neutral-400 hover:text-white" id="close-modal-button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
+<div class="flex items-start gap-4 p-3 rounded-lg bg-neutral-700/50 hover:bg-neutral-700 transition-colors">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-500/20 text-red-400">
+<span class="material-symbols-outlined">error</span>
+</div>
+<div>
+<p class="font-medium">Brake System Malfunction</p>
+<p class="text-sm text-neutral-400">Train KM-021 reported a minor brake issue. Maintenance has been dispatched.</p>
+<p class="text-xs text-neutral-500 mt-1">5 minutes ago</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-3 rounded-lg bg-neutral-700/50 hover:bg-neutral-700 transition-colors">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/20 text-amber-400">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div>
+<p class="font-medium">Signal Delay</p>
+<p class="text-sm text-neutral-400">Signal failure near Palarivattom causing minor delays on Line 1.</p>
+<p class="text-xs text-neutral-500 mt-1">12 minutes ago</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-3 rounded-lg bg-neutral-700/50 hover:bg-neutral-700 transition-colors">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400">
+<span class="material-symbols-outlined">info</span>
+</div>
+<div>
+<p class="font-medium">Scheduled Maintenance</p>
+<p class="text-sm text-neutral-400">Track maintenance scheduled for Line 2 between 1 AM and 4 AM tonight.</p>
+<p class="text-xs text-neutral-500 mt-1">1 hour ago</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-3 rounded-lg bg-neutral-700/50 hover:bg-neutral-700 transition-colors">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-lime-500/20 text-lime-400">
+<span class="material-symbols-outlined">task_alt</span>
+</div>
+<div>
+<p class="font-medium">Issue Resolved</p>
+<p class="text-sm text-neutral-400">Power outage issue at MG Road station has been resolved. Normal operations resumed.</p>
+<p class="text-xs text-neutral-500 mt-1">2 hours ago</p>
+</div>
+</div>
+</div>
+<div class="border-t border-neutral-700 p-4">
+<button class="w-full rounded-lg bg-cyan-500/20 py-2.5 text-center font-medium text-cyan-400 transition-colors hover:bg-cyan-500/30">
+                    View All Notifications
+                </button>
+</div>
+</div>
+</div>
+<script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+        const notificationButton = document.getElementById('notification-button');
+        const notificationModal = document.getElementById('notification-modal');
+        const closeModalButton = document.getElementById('close-modal-button');
+        notificationButton.addEventListener('click', () => {
+            notificationModal.classList.remove('hidden');
+        });
+        closeModalButton.addEventListener('click', () => {
+            notificationModal.classList.add('hidden');
+        });
+        notificationModal.addEventListener('click', (e) => {
+            if (e.target === notificationModal) {
+                 notificationModal.classList.add('hidden');
+            }
+        });
+    </script>
+
+</body></html>
