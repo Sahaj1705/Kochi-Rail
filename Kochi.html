@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html><head>
 <meta charset="utf-8"/>
+<meta charset="utf-8"/>
 <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
 <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Roboto%3Awght%40400%3B500%3B700%3B900&amp;family=Inter%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
@@ -36,30 +37,85 @@
             0%,
             100% {
                 opacity: 1;
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
             }
             50% {
-                opacity: .5;
+                opacity: .7;
+                box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
             }
         }
         @keyframes pulse-amber {
             0%,
             100% {
                 opacity: 1;
+                 box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
             }
             50% {
-                opacity: .5;
+                opacity: .7;
+                box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
             }
+        }
+         @keyframes pulse-gray {
+            0%,
+            100% {
+                opacity: 1;
+                 box-shadow: 0 0 0 0 rgba(156, 163, 175, 0.5);
+            }
+            50% {
+                opacity: .7;
+                box-shadow: 0 0 0 10px rgba(156, 163, 175, 0);
+            }
+        }
+        .stopped-dot {
+            animation: pulse-gray 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        #sidebar-toggle .top-bar {
+            transform: rotate(0);
+            transition: transform 0.3s ease-in-out;
+        }
+        #sidebar-toggle .middle-bar {
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #sidebar-toggle .bottom-bar {
+            transform: rotate(0);
+            transition: transform 0.3s ease-in-out;
+        }
+        #sidebar-toggle.active .top-bar {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        #sidebar-toggle.active .middle-bar {
+            opacity: 0;
+        }
+        #sidebar-toggle.active .bottom-bar {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+        #sidebar {
+            transition: width 0.3s ease-in-out, padding 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateX(0);
+        }
+        #sidebar.hidden-sidebar {
+            width: 0;
+            padding: 0;
+            transform: translateX(-100%);
+            overflow: hidden;
+        }
+        #main-content {
+            transition: margin-left 0.3s ease-in-out;
         }
     </style>
 </head>
 <body class="bg-neutral-900 text-white" style='font-family: "Inter", "Roboto", sans-serif;'>
-<div class="flex min-h-screen">
-<aside class="w-64 flex-col bg-neutral-900 p-4 transition-transform duration-300 ease-in-out" id="sidebar">
-<div class="flex items-center gap-2.5 p-4">
+<div class="flex min-h-screen flex-col">
+<div class="flex flex-1">
+<aside class="w-64 flex-shrink-0 flex-col bg-neutral-900 p-4 hidden-sidebar" id="sidebar">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-2.5">
 <svg class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
 <path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
 </svg>
 <h1 class="text-xl font-bold">Kochi Metro</h1>
+</div>
 </div>
 <nav class="mt-8 flex flex-col gap-2">
 <a class="flex items-center gap-3 rounded-lg bg-cyan-500/20 px-4 py-2.5 text-cyan-400 transition-colors hover:bg-cyan-500/30" href="#">
@@ -86,17 +142,25 @@
 </a>
 </div>
 </aside>
-<main class="flex-1">
+<main class="flex-1" id="main-content" style="margin-left: 0px;">
 <header class="flex h-20 items-center justify-between border-b border-neutral-800 bg-neutral-900 px-8">
-<button class="text-neutral-400 hover:text-white md:hidden" id="sidebar-toggle">
-<span class="material-symbols-outlined">menu</span>
+<div class="flex items-center gap-4">
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-800 p-2 text-neutral-400 transition-colors hover:bg-neutral-700 hover:text-white focus:outline-none" id="sidebar-toggle">
+<div class="space-y-1.5">
+<span class="block h-0.5 w-5 bg-current top-bar"></span>
+<span class="block h-0.5 w-5 bg-current middle-bar"></span>
+<span class="block h-0.5 w-5 bg-current bottom-bar"></span>
+</div>
 </button>
-<div class="relative hidden md:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">search</span>
-<input class="w-full rounded-lg border-transparent bg-neutral-800 py-2 pl-10 pr-4 text-white placeholder-neutral-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Search..." type="text"/>
+<div class="flex items-center gap-3">
+<svg class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<span class="text-xl font-semibold">Kochi Metro Service</span>
+</div>
 </div>
 <div class="flex items-center gap-4">
-<button class="relative rounded-full p-2 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white">
+<button class="relative rounded-full p-2 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white" id="qr-scanner-button">
 <span class="material-symbols-outlined">qr_code_scanner</span>
 </button>
 <button class="relative rounded-full p-2 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white" id="notification-button">
@@ -123,6 +187,21 @@
 <div class="relative h-[500px] overflow-hidden rounded-2xl bg-neutral-800 shadow-lg">
 <img alt="Kochi Metro Map" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfn5F8qXNbzX9Wq-ac20KddfzKvR9VZPRRsShRuuvsvR9_qsl3FX1uct1n732NeZfVvk8dKmlwdMQSz2-ADxBzoYSTRlIQUqkCMAY6kyTEv0A-OaWjcnfd_wMcUJjf16rFVC1Uj3j7roYi-6_dWLMtao6efat1PANLNGmpEVUcNoiFjfMSbtUaKfTOJKFlGJ3jll2aX7kdWgvCOi_SYNJEEVMJy_ONjxCfnRXZSFsKk0rVJtCrgClFrzEHMHEsYvLMoe6qFlYdpbXi"/>
 <div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute" style="top: 15%; left: 30%;">
+<div class="running-dot h-3 w-3 rounded-full bg-lime-400"></div>
+</div>
+<div class="absolute" style="top: 45%; left: 50%;">
+<div class="running-dot h-3 w-3 rounded-full bg-lime-400"></div>
+</div>
+<div class="absolute" style="top: 60%; left: 25%;">
+<div class="delayed-dot h-3 w-3 rounded-full bg-amber-400"></div>
+</div>
+<div class="absolute" style="top: 80%; left: 70%;">
+<div class="stopped-dot h-3 w-3 rounded-full bg-neutral-400"></div>
+</div>
+<div class="absolute" style="top: 25%; left: 75%;">
+<div class="running-dot h-3 w-3 rounded-full bg-lime-400"></div>
+</div>
 <div class="absolute bottom-4 right-4 flex flex-col gap-2">
 <button class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-700/80 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-neutral-600">
 <span class="material-symbols-outlined">add</span>
@@ -142,11 +221,8 @@
 <div class="flex justify-between gap-4">
 <div class="text-center">
 <div class="relative mx-auto h-20 w-20">
-<div class="absolute inset-0 flex items-center justify-center rounded-full bg-lime-500/20">
-<div class="h-14 w-14 rounded-full bg-lime-500/30"></div>
-</div>
-<div class="absolute inset-0 flex items-center justify-center running-dot">
-<div class="h-4 w-4 rounded-full bg-lime-400"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="running-dot h-4 w-4 rounded-full bg-lime-400"></div>
 </div>
 </div>
 <p class="mt-2 font-medium">Running</p>
@@ -154,11 +230,8 @@
 </div>
 <div class="text-center">
 <div class="relative mx-auto h-20 w-20">
-<div class="absolute inset-0 flex items-center justify-center rounded-full bg-amber-500/20">
-<div class="h-14 w-14 rounded-full bg-amber-500/30"></div>
-</div>
-<div class="absolute inset-0 flex items-center justify-center delayed-dot">
-<div class="h-4 w-4 rounded-full bg-amber-400"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="delayed-dot h-4 w-4 rounded-full bg-amber-400"></div>
 </div>
 </div>
 <p class="mt-2 font-medium">Delayed</p>
@@ -166,11 +239,8 @@
 </div>
 <div class="text-center">
 <div class="relative mx-auto h-20 w-20">
-<div class="absolute inset-0 flex items-center justify-center rounded-full bg-neutral-700/50">
-<div class="h-14 w-14 rounded-full bg-neutral-600/60"></div>
-</div>
 <div class="absolute inset-0 flex items-center justify-center">
-<div class="h-4 w-4 rounded-full bg-neutral-400"></div>
+<div class="stopped-dot h-4 w-4 rounded-full bg-neutral-400"></div>
 </div>
 </div>
 <p class="mt-2 font-medium">Stopped</p>
@@ -278,8 +348,25 @@
 </div>
 </div>
 </div>
+</div></main>
 </div>
-</main>
+<footer class="border-t border-neutral-800 bg-neutral-900 px-8 py-4">
+<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+<p class="text-sm text-neutral-400">© 2024 Kochi Metro Rail Ltd. All Rights Reserved.</p>
+<div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+<a class="text-sm text-neutral-400 transition-colors hover:text-white" href="#">Terms of Service</a>
+<a class="text-sm text-neutral-400 transition-colors hover:text-white" href="#">Privacy Policy</a>
+<a class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-white" href="mailto:contact@kochimetro.org">
+<span class="material-symbols-outlined text-base">email</span>
+<span>contact@kochimetro.org</span>
+</a>
+<a class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-white" href="tel:+914842846700">
+<span class="material-symbols-outlined text-base">call</span>
+<span>+91 484 284 6700</span>
+</a>
+</div>
+</div>
+</footer>
 </div>
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden" id="notification-modal">
 <div class="w-full max-w-md rounded-2xl bg-neutral-800 shadow-2xl">
@@ -338,11 +425,54 @@
 </div>
 </div>
 </div>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden" id="qr-scanner-modal">
+<div class="w-full max-w-lg rounded-2xl bg-neutral-800 shadow-2xl">
+<div class="flex items-center justify-between border-b border-neutral-700 p-4">
+<h3 class="text-xl font-semibold">QR Code Scanner</h3>
+<button class="text-neutral-400 hover:text-white" id="close-qr-modal-button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6">
+<div class="relative mb-4 h-64 w-full overflow-hidden rounded-xl bg-neutral-900">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="h-full w-full bg-black"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="h-48 w-48 border-4 border-dashed border-cyan-400/50 rounded-lg"></div>
+</div>
+<div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-cyan-400 animate-pulse"></div>
+</div>
+<p class="text-center text-neutral-400 mb-4">Point the camera at a QR code to scan it.</p>
+<div class="grid grid-cols-3 gap-2">
+<button class="flex flex-col items-center gap-2 rounded-lg bg-cyan-500/20 py-3 text-cyan-400 transition-colors hover:bg-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+<span class="material-symbols-outlined">badge</span>
+<span class="text-sm font-medium">Employee Login</span>
+</button>
+<button class="flex flex-col items-center gap-2 rounded-lg bg-neutral-700 py-3 text-neutral-300 transition-colors hover:bg-neutral-600">
+<span class="material-symbols-outlined">report_problem</span>
+<span class="text-sm font-medium">Problem Scan</span>
+</button>
+<button class="flex flex-col items-center gap-2 rounded-lg bg-neutral-700 py-3 text-neutral-300 transition-colors hover:bg-neutral-600">
+<span class="material-symbols-outlined">train</span>
+<span class="text-sm font-medium">Train Scan</span>
+</button>
+</div>
+</div>
+</div>
+</div>
 <script>
         const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
         const sidebarToggle = document.getElementById('sidebar-toggle');
         sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
+            sidebar.classList.toggle('hidden-sidebar');
+            sidebarToggle.classList.toggle('active');
+            if (sidebar.classList.contains('hidden-sidebar')) {
+                mainContent.style.marginLeft = '0';
+            } else {
+                mainContent.style.marginLeft = '16rem';
+            }
         });
         const notificationButton = document.getElementById('notification-button');
         const notificationModal = document.getElementById('notification-modal');
@@ -355,7 +485,21 @@
         });
         notificationModal.addEventListener('click', (e) => {
             if (e.target === notificationModal) {
-                 notificationModal.classList.add('hidden');
+                notificationModal.classList.add('hidden');
+            }
+        });
+        const qrScannerButton = document.getElementById('qr-scanner-button');
+        const qrScannerModal = document.getElementById('qr-scanner-modal');
+        const closeQrModalButton = document.getElementById('close-qr-modal-button');
+        qrScannerButton.addEventListener('click', () => {
+            qrScannerModal.classList.remove('hidden');
+        });
+        closeQrModalButton.addEventListener('click', () => {
+            qrScannerModal.classList.add('hidden');
+        });
+        qrScannerModal.addEventListener('click', (e) => {
+            if (e.target === qrScannerModal) {
+                qrScannerModal.classList.add('hidden');
             }
         });
     </script>
